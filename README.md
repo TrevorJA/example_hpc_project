@@ -1,14 +1,17 @@
-# example_hpc_project
 
+Contains a demo set of scripts for HPC training.
 
+>Contributions to this demo are welcome, preferably by extending the code while maintaining generalizability.
 
-*****
-# Summary
+## Content
 
-
-*******
-# Overview
-
+1. Tutorial
+	1. Getting started
+		1. Accessing SSH
+		2. SSH log-in
+	2. Navigating the command line
+		1. Bash basics
+		2. git
 
 
 *********
@@ -88,15 +91,16 @@ This list is far from incomplete, but are the necessities when it comes to navig
 -  `>` : Redirects the output of the command that precedes it to a file.
 -  `<` : Uses the contents of a file as input to the command that follows it.
 
-#### 1.1.2 Bash resources
+### Git
 
-Here are a few things I found online:
+You can clone a *private* repository by using the modified command:
+```
+git clone https://user:<new_PAT>@github.com/<username>/<repo_name>.git
+```
+You may need to enter your passwords
 
-(1) [*A list of bash FAQ*](https://mywiki.wooledge.org/BashFAQ)
-(2) [A nice page of different example bash scripts with descriptions](https://tldp.org/LDP/abs/html/)
 
 ## 2. Running jobs
-
 
 ### 2.1 Bash scripting
 Using bash straight from the command line is a necessary but not sufficient skill for good HPC usage. To do it right, you should use bash scripting, which consists of writing a series of bash commands within a bash script and running the script as a whole
@@ -126,7 +130,8 @@ fi
 ```
 
 ### 2.2 Executing bash scripts
-
+Enter the command:
+`sbatch <bash_file_name>.sh`
 
 #### 2.2.1 Executing julia
 Here is an example bash script that can be used to execute Julia code:
@@ -153,3 +158,5 @@ Where `arg1` and `arg2` are the arguments passed to the Julia code.
 (2) [Cornell CAC wiki page for Slurm](https://www.cac.cornell.edu/wiki/index.php?title=Slurm)
 (3) [Reed Group Lab Manual: Cluster Basics](https://reedgroup.github.io/Resources/ClusterBasics.html)
 (4) [Dave's post on batch parallelization of code using mpi4py](https://waterprogramming.wordpress.com/2021/11/10/easy-batch-parallelization-of-code-in-any-language-using-mpi4py/)
+(5) [*A list of bash FAQ*](https://mywiki.wooledge.org/BashFAQ)
+(6) [A nice page of different example bash scripts with descriptions](https://tldp.org/LDP/abs/html/)

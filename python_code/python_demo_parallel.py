@@ -1,15 +1,17 @@
+from mpi4py import MPI
+import time
 
-import sys
-import csv
+def hello():
+    # Get MPI info
+    comm = MPI.COMM_WORLD
+    rank = comm.Get_rank()
+    print(f'Hello world, from rank {rank}!')
+    time.sleep(3)
+    return
 
-def my_function(input_arg):
-    # Your function logic here
-    print("Running my_function with input:", input_arg)
 
+# Execute the function if this script is called
 if __name__ == "__main__":
-    input_file = sys.argv[1]
-    with open(input_file, 'r') as csvfile:
-        reader = csv.reader(csvfile)
-        for row in reader:
-            input_arg = row[0]
-            my_function(input_arg)
+    n_processes = 3
+    for i in range(n_processes):
+        hello()
