@@ -1,15 +1,16 @@
 #!/bin/bash
-#SBATCH --ntasks=3 --nodes=3
+#SBATCH --ntasks=3
 #SBATCH --job-name=parallel_demo
 #SBATCH --output=output/output_text.txt
 #SBATCH --error=output/error_text.txt
+#SBATCH --time=00:10:00
 #SBATCH --exclusive
 
 # Load the MPI module
-module load python/3.9.4
+module load python/3.11.5
 
-# Define the number of processes to run
-np=$3
+# Use the number of tasks requested from SLURM
+np=$SLURM_NTASKS
 
 # Activate the local environment with custom libraries
 source venv/bin/activate

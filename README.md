@@ -12,6 +12,11 @@ Contains a demo set of scripts for HPC training.
 	2. Navigating the command line
 		1. Bash basics
 		2. git
+	3. Running jobs
+		1. Bash scripting
+		2. Setting up a Python virtual environment
+		3. Submitting jobs
+	4. Monitoring and managing jobs
 
 
 *********
@@ -27,15 +32,13 @@ Once submitted, Vivek will need to approve access. After access is granted, you 
 
 Secure SHell, or SSH, is an *encrypted connection protocol* used to connect your local machine to a remote machine.  
 
-We will use SSH to access Hopper or The Cube.  
+We will use SSH to access Hopper. There are multiple options for accessing Hopper via SSH. 
 
-#### 0.1.1 SSH for Windows
-If you are are Windows user, I strongly recommend using [MobaXTerm](https://mobaxterm.mobatek.net/) to SSH into Hopper. This is what the majority of the Reed Group uses.  
 
-#### 0.1.2 SSH for Mac
-Mac users are able to SSH into Hopper straight from the [Mac Terminal](https://support.apple.com/guide/terminal/open-or-quit-terminal-apd5265185d-f365-44cb-8b09-71a064a42125/mac). The only downside of the Mac Terminal is that it does not provide an interactive GUI (visual folder system), and you must rely entirely on the command line.
-
-Previous Reed group members have had luck using [CyberDuck](https://cyberduck.io/) to have more control over File Transfer Protocol (FTP) and provide a visual GUI.  However, I am unable to provide any help here since I am a Windows user.  
+Common options are: 
+- VS Code Remote-SSH (my personal recommendation)
+- [MobaXTerm](https://mobaxterm.mobatek.net/)
+- [Mac Terminal](https://support.apple.com/guide/terminal/open-or-quit-terminal-apd5265185d-f365-44cb-8b09-71a064a42125/mac). The only downside of the Mac Terminal is that it does not provide an interactive GUI (visual folder system), and you must rely entirely on the command line.
 
 ### 0.2 SSH log-in
 
@@ -69,7 +72,7 @@ A few notes on jargon, to avoid confusion:
 
 
 #### 1.1.1 Basic bash commands
-This list is far from incomplete, but are the necessities when it comes to navigating your project via the command line.
+This list is far from complete, but covers the necessities when it comes to navigating your project via the command line.
 
 - `pwd` : print working directory
 - `cd <directory>` : change directory
@@ -129,11 +132,25 @@ if [ $? -ne 0 ]; then
 fi
 ```
 
-### 2.2 Executing bash scripts
-Enter the command:
-`sbatch <bash_file_name>.sh`
+### 2.2 Setting up a Python virtual environment
 
-#### 2.2.1 Executing julia
+Before running Python jobs that require third-party packages (like `mpi4py`), create a virtual environment in your project directory:
+```bash
+module load python/3.11.5
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+You only need to do this once. The job scripts will activate the venv automatically at runtime.
+
+### 2.3 Submitting jobs
+Enter the command:
+```
+sbatch <bash_file_name>.sh
+```
+SLURM will print a job ID, e.g. `Submitted batch job 12345`. Save this — you'll use it to monitor or cancel the job.
+
+#### 2.3.1 Executing julia
 Here is an example bash script that can be used to execute Julia code:
 ```bash
 #!/bin/bash
@@ -150,6 +167,32 @@ To run the script, open a terminal, navigate to the directory where the script a
 sbatch script.sh arg1 arg2
 ```
 Where `arg1` and `arg2` are the arguments passed to the Julia code.
+
+
+## 3. Monitoring and managing jobs
+
+After submitting a job with `sbatch`, use these commands to track it.
+
+**Check job status:**
+```bash
+squeue -u $USER
+```
+The `ST` column shows the job state:
+- `PD` — pending (waiting for resources)
+- `R` — running
+- `CG` — completing
+
+**Cancel a job:**
+```bash
+scancel <jobid>
+```
+
+**View output after the job finishes:**
+```bash
+cat output/output_text.txt
+cat output/error_text.txt
+```
+Output is only written to these files after the job completes (or is terminated). If the files are empty, the job may still be running.
 
 
 *******

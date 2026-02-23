@@ -3,6 +3,7 @@
 #SBATCH --job-name=NAME
 #SBATCH --output=output/output_text.txt
 #SBATCH --error=output/error_text.txt
+#SBATCH --time=HH:MM:SS
 #SBATCH --exclusive
 
 # Load the required software module for the specific language
