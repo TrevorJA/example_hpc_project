@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --ntasks=3
 #SBATCH --job-name=parallel_demo
-#SBATCH --output=output/output_text.txt
-#SBATCH --error=output/error_text.txt
+#SBATCH --output=logs/parallel_out.txt
+#SBATCH --error=logs/parallel_err.txt
 #SBATCH --time=00:10:00
 #SBATCH --exclusive
 
@@ -16,4 +16,5 @@ np=$SLURM_NTASKS
 source venv/bin/activate
 
 # Run the Python script using MPI
-mpirun -np $np python python_code/python_demo_parallel.py
+# The "$@" allows you to pass additional command-line arguments to the python script
+mpirun -np $np python python_code/python_demo_parallel.py "$@"
