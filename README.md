@@ -96,11 +96,19 @@ This list is far from complete, but covers the necessities when it comes to navi
 
 ### Git
 
-You can clone a *private* repository by using the modified command:
+SSH is the recommended way to authenticate with GitHub from the HPC. It requires a one-time setup but never requires entering a password or managing tokens.
+
+**One-time setup:** add your HPC public key to GitHub under Settings → SSH and GPG keys → New SSH key:
+```bash
+cat ~/.ssh/cluster.pub
 ```
-git clone https://user:<new_PAT>@github.com/<username>/<repo_name>.git
+
+**Clone a repository:**
+```bash
+git clone git@github.com:<username>/<repo_name>.git
 ```
-You may need to enter your passwords
+
+**Push/pull** work normally after that with no credentials required.
 
 
 ## 2. Running jobs
